@@ -6,14 +6,64 @@
 	objectVersion = 110;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		2A6701D2301C8FDF0036E97B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A6701D1301C8FDF0036E97B /* WidgetKit.framework */; };
+		2A6701D4301C8FDF0036E97B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A6701D3301C8FDF0036E97B /* SwiftUI.framework */; };
+		2A6701E1301C8FE00036E97B /* FuelWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2A6701CF301C8FDF0036E97B /* FuelWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2A6701DF301C8FE00036E97B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A67018A301BF9590036E97B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2A6701CE301C8FDF0036E97B;
+			remoteInfo = FuelWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2A6701E6301C8FE00036E97B /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			dstPath = "";
+			dstSubfolder = PlugIns;
+			files = (
+				2A6701E1301C8FE00036E97B /* FuelWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		2A670192301BF9590036E97B /* Fuel Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Fuel Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2A6701CF301C8FDF0036E97B /* FuelWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FuelWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		2A6701D1301C8FDF0036E97B /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		2A6701D3301C8FDF0036E97B /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		2A6701E7301C90470036E97B /* FuelWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FuelWidgetExtension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		2A6701E2301C8FE00036E97B /* Exceptions for "FuelWidget" folder in "FuelWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 2A6701CE301C8FDF0036E97B /* FuelWidgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		2A670194301BF9590036E97B /* Fuel Tracker */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "Fuel Tracker";
+			sourceTree = "<group>";
+		};
+		2A6701D5301C8FDF0036E97B /* FuelWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				2A6701E2301C8FE00036E97B /* Exceptions for "FuelWidget" folder in "FuelWidgetExtension" target */,
+			);
+			path = FuelWidget;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -24,13 +74,23 @@
 			files = (
 			);
 		};
+		2A6701CC301C8FDF0036E97B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+				2A6701D4301C8FDF0036E97B /* SwiftUI.framework in Frameworks */,
+				2A6701D2301C8FDF0036E97B /* WidgetKit.framework in Frameworks */,
+			);
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		2A670189301BF9590036E97B = {
 			isa = PBXGroup;
 			children = (
+				2A6701E7301C90470036E97B /* FuelWidgetExtension.entitlements */,
 				2A670194301BF9590036E97B /* Fuel Tracker */,
+				2A6701D5301C8FDF0036E97B /* FuelWidget */,
+				2A6701D0301C8FDF0036E97B /* Frameworks */,
 				2A670193301BF9590036E97B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -39,8 +99,18 @@
 			isa = PBXGroup;
 			children = (
 				2A670192301BF9590036E97B /* Fuel Tracker.app */,
+				2A6701CF301C8FDF0036E97B /* FuelWidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		2A6701D0301C8FDF0036E97B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2A6701D1301C8FDF0036E97B /* WidgetKit.framework */,
+				2A6701D3301C8FDF0036E97B /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -53,8 +123,12 @@
 				2A67018E301BF9590036E97B /* Sources */,
 				2A67018F301BF9590036E97B /* Frameworks */,
 				2A670190301BF9590036E97B /* Resources */,
+				2A6701E6301C8FE00036E97B /* Embed Foundation Extensions */,
 			);
 			buildRules = (
+			);
+			dependencies = (
+				2A6701E0301C8FE00036E97B /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				2A670194301BF9590036E97B /* Fuel Tracker */,
@@ -63,6 +137,24 @@
 			productName = "Fuel Tracker";
 			productReference = 2A670192301BF9590036E97B /* Fuel Tracker.app */;
 			productType = "com.apple.product-type.application";
+		};
+		2A6701CE301C8FDF0036E97B /* FuelWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2A6701E3301C8FE00036E97B /* Build configuration list for PBXNativeTarget "FuelWidgetExtension" */;
+			buildPhases = (
+				2A6701CB301C8FDF0036E97B /* Sources */,
+				2A6701CC301C8FDF0036E97B /* Frameworks */,
+				2A6701CD301C8FDF0036E97B /* Resources */,
+			);
+			buildRules = (
+			);
+			fileSystemSynchronizedGroups = (
+				2A6701D5301C8FDF0036E97B /* FuelWidget */,
+			);
+			name = FuelWidgetExtension;
+			productName = FuelWidgetExtension;
+			productReference = 2A6701CF301C8FDF0036E97B /* FuelWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -75,6 +167,9 @@
 				LastUpgradeCheck = 2700;
 				TargetAttributes = {
 					2A670191301BF9590036E97B = {
+						CreatedOnToolsVersion = 27.0;
+					};
+					2A6701CE301C8FDF0036E97B = {
 						CreatedOnToolsVersion = 27.0;
 					};
 				};
@@ -94,12 +189,18 @@
 			projectRoot = "";
 			targets = (
 				2A670191301BF9590036E97B /* Fuel Tracker */,
+				2A6701CE301C8FDF0036E97B /* FuelWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		2A670190301BF9590036E97B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+		2A6701CD301C8FDF0036E97B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
 			);
@@ -112,7 +213,20 @@
 			files = (
 			);
 		};
+		2A6701CB301C8FDF0036E97B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2A6701E0301C8FE00036E97B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2A6701CE301C8FDF0036E97B /* FuelWidgetExtension */;
+			targetProxy = 2A6701DF301C8FE00036E97B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		2A67019B301BF95A0036E97B /* Debug configuration for PBXProject "Fuel Tracker" */ = {
@@ -239,6 +353,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Fuel Tracker/Fuel Tracker.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
@@ -255,6 +370,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "sahajesh.Fuel-Tracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -270,6 +386,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Fuel Tracker/Fuel Tracker.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
@@ -286,9 +403,72 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "sahajesh.Fuel-Tracker";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		2A6701E4301C8FE00036E97B /* Debug configuration for PBXNativeTarget "FuelWidgetExtension" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = FuelWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FuelWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = FuelWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "sahajesh.Fuel-Tracker.FuelWidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2A6701E5301C8FE00036E97B /* Release configuration for PBXNativeTarget "FuelWidgetExtension" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = FuelWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FuelWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = FuelWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "sahajesh.Fuel-Tracker.FuelWidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
@@ -312,6 +492,14 @@
 			buildConfigurations = (
 				2A67019E301BF95A0036E97B /* Debug configuration for PBXNativeTarget "Fuel Tracker" */,
 				2A67019F301BF95A0036E97B /* Release configuration for PBXNativeTarget "Fuel Tracker" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		2A6701E3301C8FE00036E97B /* Build configuration list for PBXNativeTarget "FuelWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2A6701E4301C8FE00036E97B /* Debug configuration for PBXNativeTarget "FuelWidgetExtension" */,
+				2A6701E5301C8FE00036E97B /* Release configuration for PBXNativeTarget "FuelWidgetExtension" */,
 			);
 			defaultConfigurationName = Release;
 		};
