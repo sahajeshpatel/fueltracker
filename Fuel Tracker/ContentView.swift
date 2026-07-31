@@ -29,6 +29,9 @@ struct MainTabView: View {
 
     var body: some View {
         TabView {
+            DashboardView(vehicle: vehicle)
+                .tabItem { Label("Dashboard", systemImage: "gauge.medium") }
+
             FuelLogListView(vehicle: vehicle)
                 .tabItem { Label("Fuel Log", systemImage: "fuelpump.fill") }
 

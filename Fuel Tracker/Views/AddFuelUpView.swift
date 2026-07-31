@@ -1,8 +1,12 @@
 import SwiftUI
 import SwiftData
 
+/// Adds a new fill-up, or edits an existing one when `fuelUp` is supplied.
 struct AddFuelUpView: View {
     let vehicle: Vehicle
+    /// The fill-up being edited. `nil` means we're creating a new one.
+    var fuelUp: FuelUp? = nil
+
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
 
@@ -16,9 +20,11 @@ struct AddFuelUpView: View {
     @State private var totalCostText = ""
     @State private var isFullTank = true
     @State private var notes = ""
+    @State private var hasLoaded = false
 
     private var distanceUnit: DistanceUnit { DistanceUnit(rawValue: distanceUnitRaw) ?? .miles }
     private var volumeUnit: VolumeUnit { VolumeUnit(rawValue: volumeUnitRaw) ?? .liters }
+    private var isEditing: Bool { fuelUp != nil }
 
     var body: some View {
         NavigationStack {
@@ -70,7 +76,7 @@ struct AddFuelUpView: View {
                     TextField("Optional notes", text: $notes, axis: .vertical)
                 }
             }
-            .navigationTitle("New Fill-Up")
+            .navigationTitle(isEditing ? "Edit Fill-Up" : "New Fill-Up")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { dismiss() }
@@ -80,6 +86,7 @@ struct AddFuelUpView: View {
                         .disabled(!isValid)
                 }
             }
+            .onAppear { loadExistingIfNeeded() }
         }
     }
 
@@ -93,6 +100,25 @@ struct AddFuelUpView: View {
         Double(odometerText) != nil && Double(volumeText) != nil && Double(totalCostText) != nil
     }
 
+    /// Populates the fields from the existing fill-up the first time the form
+    /// appears, converting stored units into the user's display units.
+    private func loadExistingIfNeeded() {
+        guard !hasLoaded else { return }
+        hasLoaded = true
+        guard let fuelUp else { return }
+
+        date = fuelUp.date
+        odometerText = trimmedNumber(UnitConversion.displayDistance(fuelUp.odometer, unit: distanceUnit))
+        volumeText = trimmedNumber(UnitConversion.displayVolume(fuelUp.volume, unit: volumeUnit))
+        totalCostText = String(format: "%.2f", fuelUp.totalCost)
+        isFullTank = fuelUp.isFullTank
+        notes = fuelUp.notes
+    }
+
+    private func trimmedNumber(_ value: Double) -> String {
+        String(format: "%g", value)
+    }
+
     private func save() {
         guard let odometerValue = Double(odometerText),
               let volumeValue = Double(volumeText),
@@ -101,17 +127,28 @@ struct AddFuelUpView: View {
         let storedOdometer = UnitConversion.storedDistance(fromDisplay: odometerValue, unit: distanceUnit)
         let storedVolume = UnitConversion.storedVolume(fromDisplay: volumeValue, unit: volumeUnit)
 
-        let fuelUp = FuelUp(
-            date: date,
-            odometer: storedOdometer,
-            volume: storedVolume,
-            totalCost: costValue,
-            isFullTank: isFullTank,
-            notes: notes
-        )
-        fuelUp.vehicle = vehicle
-        vehicle.fuelUps.append(fuelUp)
-        modelContext.insert(fuelUp)
+        if let fuelUp {
+            // Editing: update the existing record in place.
+            fuelUp.date = date
+            fuelUp.odometer = storedOdometer
+            fuelUp.volume = storedVolume
+            fuelUp.totalCost = costValue
+            fuelUp.isFullTank = isFullTank
+            fuelUp.notes = notes
+        } else {
+            let newFuelUp = FuelUp(
+                date: date,
+                odometer: storedOdometer,
+                volume: storedVolume,
+                totalCost: costValue,
+                isFullTank: isFullTank,
+                notes: notes
+            )
+            newFuelUp.vehicle = vehicle
+            vehicle.fuelUps.append(newFuelUp)
+            modelContext.insert(newFuelUp)
+        }
+
         try? modelContext.save()
         WidgetSync.refresh(for: vehicle)
         dismiss()

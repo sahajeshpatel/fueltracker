@@ -5,6 +5,7 @@ struct FuelLogListView: View {
     let vehicle: Vehicle
     @Environment(\.modelContext) private var modelContext
     @State private var showingAddSheet = false
+    @State private var editingFuelUp: FuelUp?
 
     @AppStorage(AppStorageKeys.distanceUnit) private var distanceUnitRaw = DistanceUnit.miles.rawValue
     @AppStorage(AppStorageKeys.volumeUnit) private var volumeUnitRaw = VolumeUnit.liters.rawValue
@@ -42,14 +43,19 @@ struct FuelLogListView: View {
                     )
                 } else {
                     ForEach(sortedFuelUps) { fuelUp in
-                        FuelUpRow(
-                            fuelUp: fuelUp,
-                            distanceUnit: distanceUnit,
-                            volumeUnit: volumeUnit,
-                            efficiencyUnit: efficiencyUnit,
-                            currencySymbol: currencySymbol,
-                            efficiency: efficiencyByFuelUpID[fuelUp.id]
-                        )
+                        Button {
+                            editingFuelUp = fuelUp
+                        } label: {
+                            FuelUpRow(
+                                fuelUp: fuelUp,
+                                distanceUnit: distanceUnit,
+                                volumeUnit: volumeUnit,
+                                efficiencyUnit: efficiencyUnit,
+                                currencySymbol: currencySymbol,
+                                efficiency: efficiencyByFuelUpID[fuelUp.id]
+                            )
+                        }
+                        .buttonStyle(.plain)
                     }
                     .onDelete(perform: deleteFuelUps)
                 }
@@ -66,6 +72,9 @@ struct FuelLogListView: View {
             }
             .sheet(isPresented: $showingAddSheet) {
                 AddFuelUpView(vehicle: vehicle)
+            }
+            .sheet(item: $editingFuelUp) { fuelUp in
+                AddFuelUpView(vehicle: vehicle, fuelUp: fuelUp)
             }
             .onAppear { WidgetSync.refresh(for: vehicle) }
         }
