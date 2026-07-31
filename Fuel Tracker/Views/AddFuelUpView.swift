@@ -113,6 +113,7 @@ struct AddFuelUpView: View {
         vehicle.fuelUps.append(fuelUp)
         modelContext.insert(fuelUp)
         try? modelContext.save()
+        WidgetSync.refresh(for: vehicle)
         dismiss()
     }
 }

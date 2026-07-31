@@ -67,6 +67,7 @@ struct FuelLogListView: View {
             .sheet(isPresented: $showingAddSheet) {
                 AddFuelUpView(vehicle: vehicle)
             }
+            .onAppear { WidgetSync.refresh(for: vehicle) }
         }
     }
 
@@ -75,5 +76,6 @@ struct FuelLogListView: View {
             modelContext.delete(sortedFuelUps[index])
         }
         try? modelContext.save()
+        WidgetSync.refresh(for: vehicle)
     }
 }
