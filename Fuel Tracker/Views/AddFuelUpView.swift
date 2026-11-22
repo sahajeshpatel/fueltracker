@@ -36,7 +36,7 @@ struct AddFuelUpView: View {
                         Text("Odometer")
                         Spacer()
                         TextField(distanceUnit.label, text: $odometerText)
-                            .keyboardType(.decimalPad)
+                            .decimalKeyboard()
                             .multilineTextAlignment(.trailing)
                     }
 
@@ -44,7 +44,7 @@ struct AddFuelUpView: View {
                         Text("Volume")
                         Spacer()
                         TextField(volumeUnit.label, text: $volumeText)
-                            .keyboardType(.decimalPad)
+                            .decimalKeyboard()
                             .multilineTextAlignment(.trailing)
                     }
 
@@ -54,7 +54,7 @@ struct AddFuelUpView: View {
                         Text(currencySymbol)
                             .foregroundStyle(.secondary)
                         TextField("0.00", text: $totalCostText)
-                            .keyboardType(.decimalPad)
+                            .decimalKeyboard()
                             .multilineTextAlignment(.trailing)
                     }
 
@@ -145,12 +145,24 @@ struct AddFuelUpView: View {
                 notes: notes
             )
             newFuelUp.vehicle = vehicle
-            vehicle.fuelUps.append(newFuelUp)
             modelContext.insert(newFuelUp)
         }
 
         try? modelContext.save()
         WidgetSync.refresh(for: vehicle)
         dismiss()
+    }
+}
+
+private extension View {
+    /// Shows the decimal keypad on iOS. macOS has no software keyboard, so
+    /// this is a no-op there.
+    @ViewBuilder
+    func decimalKeyboard() -> some View {
+        #if os(iOS)
+        keyboardType(.decimalPad)
+        #else
+        self
+        #endif
     }
 }

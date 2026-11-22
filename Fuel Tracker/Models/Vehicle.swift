@@ -3,14 +3,16 @@ import SwiftData
 
 @Model
 final class Vehicle {
-    var name: String
-    var make: String
-    var model: String
-    var year: Int
-    var createdAt: Date
+    // CloudKit sync requires every attribute to have a default value and every
+    // relationship to be optional, so defaults are declared inline.
+    var name: String = ""
+    var make: String = ""
+    var model: String = ""
+    var year: Int = Calendar.current.component(.year, from: Date())
+    var createdAt: Date = Date()
 
     @Relationship(deleteRule: .cascade, inverse: \FuelUp.vehicle)
-    var fuelUps: [FuelUp] = []
+    var fuelUps: [FuelUp]? = []
 
     init(
         name: String,

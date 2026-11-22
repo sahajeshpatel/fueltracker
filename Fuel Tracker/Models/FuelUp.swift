@@ -3,23 +3,25 @@ import SwiftData
 
 @Model
 final class FuelUp {
-    var date: Date
+    // CloudKit sync requires every attribute to have a default value and every
+    // relationship to be optional, so defaults are declared inline.
+    var date: Date = Date()
 
     /// Always stored in miles, regardless of the user's display unit.
-    var odometer: Double
+    var odometer: Double = 0
 
     /// Always stored in liters, regardless of the user's display unit.
-    var volume: Double
+    var volume: Double = 0
 
     /// Total amount paid, in whatever currency the user has set.
-    var totalCost: Double
+    var totalCost: Double = 0
 
     /// Whether this fill-up topped the tank all the way up. Only full-to-full
     /// intervals are used to calculate efficiency, since partial fills make
     /// distance/fuel-used figures unreliable.
-    var isFullTank: Bool
+    var isFullTank: Bool = true
 
-    var notes: String
+    var notes: String = ""
 
     var vehicle: Vehicle?
 

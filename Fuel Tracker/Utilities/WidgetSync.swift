@@ -32,7 +32,7 @@ enum WidgetSync {
         let unitRaw = UserDefaults.standard.string(forKey: AppStorageKeys.efficiencyUnit)
         let unit = EfficiencyUnit(rawValue: unitRaw ?? "") ?? .mpgUK
 
-        let records = EfficiencyCalculator.records(for: vehicle.fuelUps)
+        let records = EfficiencyCalculator.records(for: vehicle.fuelUps ?? [])
 
         if let latest = records.max(by: { $0.date < $1.date }) {
             let value = UnitConversion.efficiency(

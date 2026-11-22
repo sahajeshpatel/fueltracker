@@ -15,7 +15,7 @@ struct StatsView: View {
     private var efficiencyUnit: EfficiencyUnit { EfficiencyUnit(rawValue: efficiencyUnitRaw) ?? .mpgUK }
 
     private var efficiencyChartPoints: [ChartPoint] {
-        EfficiencyCalculator.records(for: vehicle.fuelUps).map { record in
+        EfficiencyCalculator.records(for: vehicle.fuelUps ?? []).map { record in
             ChartPoint(
                 date: record.date,
                 value: UnitConversion.efficiency(
@@ -28,8 +28,7 @@ struct StatsView: View {
     }
 
     private var priceTrendPoints: [ChartPoint] {
-        vehicle.fuelUps
-            .sorted { $0.date < $1.date }
+        (vehicle.fuelUps ?? []).sorted { $0.date < $1.date }
             .map { fuelUp in
                 let displayVolume = UnitConversion.displayVolume(fuelUp.volume, unit: volumeUnit)
                 let price = displayVolume > 0 ? fuelUp.totalCost / displayVolume : 0
@@ -44,11 +43,11 @@ struct StatsView: View {
     }
 
     private var totalSpent: Double {
-        vehicle.fuelUps.reduce(0) { $0 + $1.totalCost }
+        (vehicle.fuelUps ?? []).reduce(0) { $0 + $1.totalCost }
     }
 
     private var totalDistance: Double {
-        let sorted = vehicle.fuelUps.sorted { $0.odometer < $1.odometer }
+        let sorted = (vehicle.fuelUps ?? []).sorted { $0.odometer < $1.odometer }
         guard let first = sorted.first, let last = sorted.last, sorted.count > 1 else { return 0 }
         return UnitConversion.displayDistance(last.odometer - first.odometer, unit: distanceUnit)
     }
@@ -135,6 +134,14 @@ struct StatCard: View {
     let title: String
     let value: String
 
+    private static var cardBackground: Color {
+        #if os(macOS)
+        Color(nsColor: .controlBackgroundColor)
+        #else
+        Color(.secondarySystemBackground)
+        #endif
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             Text(title)
@@ -145,7 +152,7 @@ struct StatCard: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
-        .background(Color(.secondarySystemBackground))
+        .background(Self.cardBackground)
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }

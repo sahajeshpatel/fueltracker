@@ -16,12 +16,12 @@ struct DashboardView: View {
     private var efficiencyUnit: EfficiencyUnit { EfficiencyUnit(rawValue: efficiencyUnitRaw) ?? .mpgUK }
 
     private var totalSpent: Double {
-        vehicle.fuelUps.reduce(0) { $0 + $1.totalCost }
+        (vehicle.fuelUps ?? []).reduce(0) { $0 + $1.totalCost }
     }
 
     /// The most recent full-to-full efficiency figure, in the user's unit.
     private var currentEfficiency: Double? {
-        let records = EfficiencyCalculator.records(for: vehicle.fuelUps)
+        let records = EfficiencyCalculator.records(for: vehicle.fuelUps ?? [])
         guard let latest = records.max(by: { $0.date < $1.date }) else { return nil }
         return UnitConversion.efficiency(
             distanceMiles: latest.distanceMiles,
@@ -31,13 +31,13 @@ struct DashboardView: View {
     }
 
     private var lastFuelUp: FuelUp? {
-        vehicle.fuelUps.max { $0.date < $1.date }
+        (vehicle.fuelUps ?? []).max { $0.date < $1.date }
     }
 
     var body: some View {
         NavigationStack {
             ScrollView {
-                if vehicle.fuelUps.isEmpty {
+                if (vehicle.fuelUps ?? []).isEmpty {
                     ContentUnavailableView(
                         "No Data Yet",
                         systemImage: "gauge.medium",

@@ -17,12 +17,12 @@ struct FuelLogListView: View {
     private var efficiencyUnit: EfficiencyUnit { EfficiencyUnit(rawValue: efficiencyUnitRaw) ?? .mpgUK }
 
     private var sortedFuelUps: [FuelUp] {
-        vehicle.fuelUps.sorted { $0.date > $1.date }
+        (vehicle.fuelUps ?? []).sorted { $0.date > $1.date }
     }
 
     private var efficiencyByFuelUpID: [PersistentIdentifier: Double] {
         var map: [PersistentIdentifier: Double] = [:]
-        for record in EfficiencyCalculator.records(for: vehicle.fuelUps) {
+        for record in EfficiencyCalculator.records(for: vehicle.fuelUps ?? []) {
             map[record.fuelUpID] = UnitConversion.efficiency(
                 distanceMiles: record.distanceMiles,
                 volumeLiters: record.volumeLiters,
@@ -62,7 +62,7 @@ struct FuelLogListView: View {
             }
             .navigationTitle(vehicle.name)
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .primaryAction) {
                     Button {
                         showingAddSheet = true
                     } label: {

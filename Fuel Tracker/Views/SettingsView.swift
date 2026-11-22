@@ -193,7 +193,7 @@ struct SettingsView: View {
     private func importParsedFuelUps(_ parsed: [FuellyCSVImporter.ParsedFuelUp]) {
         // Skip fuel-ups that already exist, matching on date and odometer so a
         // file can be re-imported without creating duplicates.
-        let existingKeys = Set(vehicle.fuelUps.map { importKey(date: $0.date, odometer: $0.odometer) })
+        let existingKeys = Set((vehicle.fuelUps ?? []).map { importKey(date: $0.date, odometer: $0.odometer) })
 
         // Adopt the name from the export if the vehicle is still the default and
         // the file names one, so the imported log isn't stuck under "My Car".
@@ -220,7 +220,6 @@ struct SettingsView: View {
                 notes: row.notes
             )
             fuelUp.vehicle = vehicle
-            vehicle.fuelUps.append(fuelUp)
             modelContext.insert(fuelUp)
             imported += 1
         }
@@ -279,7 +278,7 @@ struct SettingsView: View {
     /// Adds any fuel-ups the log doesn't already have. Existing entries are
     /// left alone, so a backup can be imported more than once safely.
     private func merge(_ backup: FuelBackup) {
-        let existingKeys = Set(vehicle.fuelUps.map { importKey(date: $0.date, odometer: $0.odometer) })
+        let existingKeys = Set((vehicle.fuelUps ?? []).map { importKey(date: $0.date, odometer: $0.odometer) })
 
         var imported = 0
         var skipped = 0
@@ -298,7 +297,6 @@ struct SettingsView: View {
                 notes: row.notes
             )
             fuelUp.vehicle = vehicle
-            vehicle.fuelUps.append(fuelUp)
             modelContext.insert(fuelUp)
             imported += 1
         }
@@ -353,8 +351,7 @@ struct FuelBackup: Codable {
             model: vehicle.model,
             year: vehicle.year
         )
-        self.fuelUps = vehicle.fuelUps
-            .sorted { $0.date < $1.date }
+        self.fuelUps = (vehicle.fuelUps ?? []).sorted { $0.date < $1.date }
             .map {
                 FuelUpSnapshot(
                     date: $0.date,

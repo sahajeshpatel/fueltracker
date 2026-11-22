@@ -202,13 +202,17 @@ struct FuelWidget: Widget {
         }
         .configurationDisplayName("Fuel Efficiency")
         .description("Shows the most recent fuel efficiency for your vehicle.")
-        .supportedFamilies([
-            .systemSmall,
-            .systemMedium,
-            .accessoryRectangular,
-            .accessoryInline,
-            .accessoryCircular
-        ])
+        .supportedFamilies(Self.supportedFamilies)
+    }
+
+    /// Lock Screen accessory families don't exist on macOS, so the Mac widget
+    /// only offers the desktop sizes.
+    private static var supportedFamilies: [WidgetFamily] {
+        #if os(macOS)
+        [.systemSmall, .systemMedium]
+        #else
+        [.systemSmall, .systemMedium, .accessoryRectangular, .accessoryInline, .accessoryCircular]
+        #endif
     }
 }
 
